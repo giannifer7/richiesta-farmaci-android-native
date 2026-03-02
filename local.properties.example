@@ -1,0 +1,11 @@
+# Copia questo file in local.properties e compila i valori reali.
+# local.properties NON deve essere committato su git.
+
+# Percorso Android SDK (impostato automaticamente da Android Studio)
+sdk.dir=/path/to/Android/Sdk
+
+# Credenziali keystore per il build release
+KEYSTORE_PATH=../your-keystore.jks
+KEYSTORE_PASSWORD=your_keystore_password
+KEY_ALIAS=your_key_alias
+KEY_PASSWORD=your_key_password

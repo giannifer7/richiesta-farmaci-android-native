@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Sfondo verde farmacia per l'icona adaptive -->
+    <color name="ic_launcher_background">#27AE60</color>
+</resources>
