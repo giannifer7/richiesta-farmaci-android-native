@@ -2,6 +2,14 @@
 
 App Android per inviare al medico la richiesta di rinnovo ricette, via **WhatsApp** o **SMS**, nel formato esatto atteso dallo studio medico.
 
+## Installazione rapida
+
+Scansiona il QR code con il telefono Android:
+
+![QR code installazione](qr-install.png)
+
+> **Prima installazione:** Android chiederà di abilitare *Installa app sconosciute* per il browser — va fatto una volta sola.
+
 ## Funzionamento
 
 La schermata principale mostra la lista dei farmaci abituali con le checkbox già spuntate sui farmaci da richiedere di default. Si selezionano i farmaci desiderati e si preme **INVIA**: l'app apre WhatsApp (o l'app SMS) con il messaggio già compilato nel formato:
