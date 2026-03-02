@@ -69,6 +69,12 @@ KEY_PASSWORD=...
 - **minSdk** 21 (Android 5.0)
 - **targetSdk** 34 (Android 14)
 
+## Privacy / GDPR
+
+I dati personali inseriti (nome, cognome, codice fiscale) sono salvati **solo localmente** sul dispositivo tramite `SharedPreferences` e il file `medicines.txt`. Non vengono trasmessi a nessun server o servizio esterno.
+
+L'unica trasmissione avviene quando l'utente preme **INVIA**: in quel momento l'app apre WhatsApp o l'app SMS con il messaggio precompilato, e l'utente lo invia esplicitamente al solo destinatario configurato (il medico).
+
 ## Icona
 
 Bastone di Asclepio — [Rod_of_Asclepius_vector.svg](https://commons.wikimedia.org/wiki/File:Rod_of_Asclepius_vector.svg), Wikimedia Commons, CC0 pubblico dominio.
