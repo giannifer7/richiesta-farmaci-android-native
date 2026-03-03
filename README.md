@@ -8,7 +8,10 @@ Scansiona il QR code con il telefono Android:
 
 ![QR code installazione](qr-install.png)
 
+Oppure scarica direttamente l'APK: [app-release.apk](https://github.com/giannifer7/richiesta-farmaci/releases/download/v1.2/app-release.apk)
+
 > **Prima installazione:** Android chiederà di abilitare *Installa app sconosciute* per il browser — va fatto una volta sola.
+> Dopo il download, se il browser non propone di aprire il file, aprire l'app **Download** e toccare `app-release.apk`.
 
 ## Funzionamento
 
