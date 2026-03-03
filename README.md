@@ -1,8 +1,11 @@
-# Richiesta Farmaci
+# Richiesta Farmaci — App Android nativa
+
+> **Versione consigliata:** usa la **[web app (PWA)](https://giannifer7.github.io/richiesta-farmaci/)** — funziona su iPhone e Android senza installazione, direttamente dal browser.
+> Questo repo contiene la versione nativa Android.
 
 App Android per inviare al medico la richiesta di rinnovo ricette, via **WhatsApp**, **SMS** o **Email**, nel formato esatto atteso dallo studio medico.
 
-## Installazione rapida
+## Installazione rapida (Android)
 
 Scansiona il QR code con il telefono Android:
 
