@@ -12,6 +12,8 @@ Scansiona il QR code con il telefono Android:
 
 ## Funzionamento
 
+<img src="screenshot-main.png" width="260" alt="Schermata principale" align="right" />
+
 La schermata principale mostra la lista dei farmaci abituali con le checkbox già spuntate sui farmaci da richiedere di default. Si selezionano i farmaci desiderati e si preme **INVIA**: l'app apre WhatsApp, l'app SMS o il client email con il messaggio già compilato nel formato predefinito:
 
 ```
