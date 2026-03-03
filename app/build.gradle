@@ -38,6 +38,12 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "richiesta-farmaci-${variant.versionName}.apk"
+        }
+    }
 }
 
 dependencies {
