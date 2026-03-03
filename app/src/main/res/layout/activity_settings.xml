@@ -108,6 +108,22 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="Email del Medico"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/editEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="medico@esempio.it"
+                android:textSize="22sp"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="20dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:text="Metodo di Invio"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -116,26 +132,65 @@
                 android:id="@+id/radioSendMethod"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:layout_marginBottom="20dp">
 
                 <RadioButton
                     android:id="@+id/radioWhatsApp"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="WhatsApp"
                     android:textSize="22sp" />
 
                 <RadioButton
                     android:id="@+id/radioSms"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:text="SMS"
                     android:textSize="22sp" />
 
+                <RadioButton
+                    android:id="@+id/radioEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textSize="22sp" />
+
             </RadioGroup>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Modello messaggio"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="{nome}  {cognome}  {COGNOME}  {cod_fisc}\n{lista(&quot;\n&quot;, {qta} x {farmaco})}"
+                android:textSize="13sp"
+                android:fontFamily="monospace"
+                android:textColor="#666666"
+                android:layout_marginBottom="6dp" />
+
+            <EditText
+                android:id="@+id/editTemplate"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:gravity="top"
+                android:textSize="16sp"
+                android:fontFamily="monospace"
+                android:inputType="textMultiLine"
+                android:layout_marginBottom="4dp" />
+
+            <Button
+                android:id="@+id/btnResetTemplate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ripristina default"
+                android:textSize="14sp"
+                android:layout_marginBottom="20dp" />
 
             <TextView
                 android:layout_width="match_parent"

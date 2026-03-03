@@ -17,11 +17,15 @@ class SettingsActivity : AppCompatActivity() {
         val editLastName = findViewById<EditText>(R.id.editLastName)
         val editCF = findViewById<EditText>(R.id.editCF)
         val editPhone = findViewById<EditText>(R.id.editPhone)
+        val editEmail = findViewById<EditText>(R.id.editEmail)
         val radioWhatsApp = findViewById<RadioButton>(R.id.radioWhatsApp)
         val radioSms = findViewById<RadioButton>(R.id.radioSms)
+        val radioEmail = findViewById<RadioButton>(R.id.radioEmail)
         val medicineContainer = findViewById<LinearLayout>(R.id.medicineListContainer)
         val editNewMedicine = findViewById<EditText>(R.id.editNewMedicine)
         val btnAddMedicine = findViewById<Button>(R.id.btnAddMedicine)
+        val editTemplate = findViewById<EditText>(R.id.editTemplate)
+        val btnResetTemplate = findViewById<Button>(R.id.btnResetTemplate)
         val editImportText = findViewById<EditText>(R.id.editImportText)
         val btnImport = findViewById<Button>(R.id.btnImport)
         val btnSave = findViewById<Button>(R.id.btnSave)
@@ -48,11 +52,15 @@ class SettingsActivity : AppCompatActivity() {
         editLastName.setText(lastNameStr)
         editCF.setText(prefs.getString("fiscal_code", ""))
         editPhone.setText(prefs.getString("doctor_phone", ""))
+        editEmail.setText(prefs.getString("doctor_email", ""))
+        editTemplate.setText(prefs.getString("message_template", null) ?: MainActivity.DEFAULT_TEMPLATE)
+        btnResetTemplate.setOnClickListener { editTemplate.setText(MainActivity.DEFAULT_TEMPLATE) }
 
-        if (prefs.getString("send_method", "whatsapp") == "sms")
-            radioSms.isChecked = true
-        else
-            radioWhatsApp.isChecked = true
+        when (prefs.getString("send_method", "whatsapp")) {
+            "sms"   -> radioSms.isChecked = true
+            "email" -> radioEmail.isChecked = true
+            else    -> radioWhatsApp.isChecked = true
+        }
 
         parseMedicines().forEach { (entry, isDefault) ->
             addMedicineRow(medicineContainer, entry, isDefault)
@@ -80,14 +88,20 @@ class SettingsActivity : AppCompatActivity() {
         btnBack.setOnClickListener { finish() }
 
         btnSave.setOnClickListener {
-            val sendMethod = if (radioSms.isChecked) "sms" else "whatsapp"
+            val sendMethod = when {
+                radioSms.isChecked   -> "sms"
+                radioEmail.isChecked -> "email"
+                else                 -> "whatsapp"
+            }
             saveMedicines(medicineContainer)
             prefs.edit()
                 .putString("patient_firstname", editFirstName.text.toString().trim())
                 .putString("patient_lastname", editLastName.text.toString().trim())
                 .putString("fiscal_code", editCF.text.toString())
                 .putString("doctor_phone", editPhone.text.toString())
+                .putString("doctor_email", editEmail.text.toString().trim())
                 .putString("send_method", sendMethod)
+                .putString("message_template", editTemplate.text.toString())
                 .apply()
             Toast.makeText(this, "Salvato", Toast.LENGTH_SHORT).show()
             finish()

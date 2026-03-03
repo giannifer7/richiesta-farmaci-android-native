@@ -1,6 +1,6 @@
 # Richiesta Farmaci
 
-App Android per inviare al medico la richiesta di rinnovo ricette, via **WhatsApp** o **SMS**, nel formato esatto atteso dallo studio medico.
+App Android per inviare al medico la richiesta di rinnovo ricette, via **WhatsApp**, **SMS** o **Email**, nel formato esatto atteso dallo studio medico.
 
 ## Installazione rapida
 
@@ -12,11 +12,13 @@ Scansiona il QR code con il telefono Android:
 
 ## Funzionamento
 
-La schermata principale mostra la lista dei farmaci abituali con le checkbox già spuntate sui farmaci da richiedere di default. Si selezionano i farmaci desiderati e si preme **INVIA**: l'app apre WhatsApp (o l'app SMS) con il messaggio già compilato nel formato:
+La schermata principale mostra la lista dei farmaci abituali con le checkbox già spuntate sui farmaci da richiedere di default. Si selezionano i farmaci desiderati e si preme **INVIA**: l'app apre WhatsApp, l'app SMS o il client email con il messaggio già compilato nel formato predefinito:
 
 ```
 Farmaci: COGNOME Nome, 2 x Farmaco A, 1 x Farmaco B, ...
 ```
+
+In fondo alla schermata viene mostrato un promemoria con la data dell'ultima richiesta inviata (es. *"Ultima richiesta 41 giorni fa (23 gennaio 2026)"*).
 
 ## Impostazioni
 
@@ -25,9 +27,36 @@ Nella schermata **Impostazioni** si configurano:
 - **Nome** e **Cognome** del paziente
 - **Codice Fiscale**
 - **Numero di telefono** del medico
-- **Metodo di invio**: WhatsApp o SMS
+- **Email** del medico
+- **Metodo di invio**: WhatsApp, SMS o Email
+- **Modello messaggio**: testo personalizzabile con segnaposto (vedi sotto)
 - **Lista farmaci**: nome, quantità (confezioni) e selezione di default
 - **Import da testo**: incolla una lista farmaci (es. dalla risposta del medico) per aggiornare la lista in un colpo solo
+
+### Modello messaggio
+
+Il testo inviato è personalizzabile tramite segnaposto:
+
+| Segnaposto | Valore |
+|---|---|
+| `{nome}` | Nome del paziente |
+| `{cognome}` | Cognome (come inserito) |
+| `{COGNOME}` | Cognome in maiuscolo |
+| `{cod_fisc}` | Codice fiscale |
+| `{lista("sep", {qta} x {farmaco})}` | Lista farmaci con separatore e formato personalizzati |
+
+Il separatore supporta `\n` (a capo) e `\t` (tabulazione). Esempio con farmaci su righe separate:
+
+```
+{COGNOME} {nome} - {cod_fisc}
+{lista("\n", {qta} x {farmaco})}
+```
+
+Il pulsante **Ripristina default** riporta al formato originale:
+
+```
+Farmaci: {COGNOME} {nome}, {lista(", ", {qta} x {farmaco})}
+```
 
 ### Formato import
 
@@ -81,7 +110,7 @@ KEY_PASSWORD=...
 
 I dati personali inseriti (nome, cognome, codice fiscale) sono salvati **solo localmente** sul dispositivo tramite `SharedPreferences` e il file `medicines.txt`. Non vengono trasmessi a nessun server o servizio esterno.
 
-L'unica trasmissione avviene quando l'utente preme **INVIA**: in quel momento l'app apre WhatsApp o l'app SMS con il messaggio precompilato, e l'utente lo invia esplicitamente al solo destinatario configurato (il medico).
+L'unica trasmissione avviene quando l'utente preme **INVIA**: in quel momento l'app apre WhatsApp, l'app SMS o il client email con il messaggio precompilato, e l'utente lo invia esplicitamente al solo destinatario configurato (il medico).
 
 ## Icona
 
