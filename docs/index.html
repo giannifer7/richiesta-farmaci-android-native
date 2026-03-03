@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Farmaci">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <title>Richiesta Farmaci</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+    <h1>Richiesta Farmaci</h1>
+    <a href="settings.html" class="btn btn-secondary btn-small">Impostazioni</a>
+</div>
+
+<div class="content">
+    <div id="medicineList"></div>
+    <p class="last-request" id="lastRequest"></p>
+</div>
+
+<div class="footer-btn">
+    <button class="btn btn-primary" id="btnSend">INVIA</button>
+</div>
+
+<script src="app.js"></script>
+<script>
+    // Build medicine list
+    const medicines = parseMedicines();
+    const sorted = [...medicines].sort((a, b) =>
+        medicineNameOnly(a.entry).localeCompare(medicineNameOnly(b.entry), 'it'));
+
+    const container = document.getElementById('medicineList');
+    sorted.forEach(({ entry, isDefault }, i) => {
+        const div = document.createElement('div');
+        div.className = 'medicine-item';
+        const cb = document.createElement('input');
+        cb.type = 'checkbox';
+        cb.id = 'med' + i;
+        cb.checked = isDefault;
+        const lbl = document.createElement('label');
+        lbl.htmlFor = cb.id;
+        lbl.textContent = entry;
+        div.appendChild(cb);
+        div.appendChild(lbl);
+        container.appendChild(div);
+    });
+
+    document.getElementById('lastRequest').textContent = formatLastRequest();
+
+    document.getElementById('btnSend').addEventListener('click', () => {
+        const selected = [];
+        container.querySelectorAll('input[type=checkbox]').forEach((cb, i) => {
+            if (cb.checked) selected.push(sorted[i].entry);
+        });
+
+        if (selected.length === 0) { alert('Seleziona almeno un farmaco'); return; }
+
+        const p = getPrefs();
+        const via = p.send_method;
+
+        if (!p.patient_firstname && !p.patient_lastname) {
+            alert('Imposta nome e cognome nelle Impostazioni'); return;
+        }
+        if (via === 'email' && !p.doctor_email) {
+            alert("Imposta l'email del medico nelle Impostazioni"); return;
+        }
+        if (via !== 'email' && !p.doctor_phone) {
+            alert('Imposta il numero del medico nelle Impostazioni'); return;
+        }
+
+        const message = applyTemplate(
+            p.message_template || DEFAULT_TEMPLATE,
+            p.patient_firstname, p.patient_lastname, p.fiscal_code, selected);
+
+        if (via === 'whatsapp') {
+            const phone = p.doctor_phone.replace(/[^0-9]/g, '');
+            window.open('https://wa.me/' + phone + '?text=' + encodeURIComponent(message), '_blank');
+        } else if (via === 'sms') {
+            window.location.href = 'sms:' + p.doctor_phone + '?body=' + encodeURIComponent(message);
+        } else {
+            window.location.href = 'mailto:' + p.doctor_email
+                + '?subject=' + encodeURIComponent('Richiesta farmaci')
+                + '&body=' + encodeURIComponent(message);
+        }
+
+        localStorage.setItem('last_request_ms', Date.now().toString());
+        document.getElementById('lastRequest').textContent = formatLastRequest();
+    });
+</script>
+</body>
+</html>

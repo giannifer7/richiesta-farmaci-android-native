@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Farmaci">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <title>Impostazioni – Richiesta Farmaci</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+    <a href="index.html" class="btn btn-secondary btn-small">‹ Indietro</a>
+    <h1>Impostazioni</h1>
+</div>
+
+<div class="content">
+
+    <div class="field-label">Nome</div>
+    <input class="field-input" id="firstName" type="text" inputmode="text" autocomplete="given-name" placeholder="Mario">
+
+    <div class="field-label">Cognome</div>
+    <input class="field-input" id="lastName" type="text" inputmode="text" autocomplete="family-name" placeholder="Rossi">
+
+    <div class="field-label">Codice Fiscale</div>
+    <input class="field-input" id="fiscalCode" type="text" inputmode="text" style="text-transform:uppercase" placeholder="XXXXXXXXXXXXXXXX">
+
+    <div class="field-label">Telefono del Medico</div>
+    <input class="field-input" id="doctorPhone" type="tel" autocomplete="tel" placeholder="+39...">
+
+    <div class="field-label">Email del Medico</div>
+    <input class="field-input" id="doctorEmail" type="email" autocomplete="email" placeholder="medico@esempio.it">
+
+    <div class="field-label">Metodo di Invio</div>
+    <div class="radio-group">
+        <label class="radio-item"><input type="radio" name="sendMethod" value="whatsapp"> WhatsApp</label>
+        <label class="radio-item"><input type="radio" name="sendMethod" value="sms"> SMS</label>
+        <label class="radio-item"><input type="radio" name="sendMethod" value="email"> Email</label>
+    </div>
+
+    <div class="template-row">
+        <div class="field-label">Modello messaggio</div>
+        <button class="btn btn-outline" id="btnReset">Ripristina default</button>
+    </div>
+    <div class="field-hint">{nome} &nbsp;{cognome} &nbsp;{COGNOME} &nbsp;{cod_fisc}<br>{lista("\n", {qta} x {farmaco})}</div>
+    <textarea class="field-input" id="template" rows="4"></textarea>
+
+    <div style="margin-top:22px">
+        <a href="medicines.html" class="btn btn-secondary" style="font-size:19px">Gestisci farmaci →</a>
+    </div>
+
+    <div class="privacy-note">
+        🔒 I dati inseriti sono salvati solo su questo dispositivo e non vengono trasmessi a nessun server.
+        Vengono inviati esclusivamente al destinatario da te configurato, solo quando premi INVIA.
+    </div>
+
+</div>
+
+<div class="footer-btn">
+    <button class="btn btn-primary" id="btnSave">SALVA</button>
+</div>
+
+<script src="app.js"></script>
+<script>
+    const p = getPrefs();
+    document.getElementById('firstName').value   = p.patient_firstname;
+    document.getElementById('lastName').value    = p.patient_lastname;
+    document.getElementById('fiscalCode').value  = p.fiscal_code;
+    document.getElementById('doctorPhone').value = p.doctor_phone;
+    document.getElementById('doctorEmail').value = p.doctor_email;
+    document.getElementById('template').value    = p.message_template || DEFAULT_TEMPLATE;
+
+    const method = p.send_method || 'whatsapp';
+    document.querySelector('input[name=sendMethod][value="' + method + '"]').checked = true;
+
+    document.getElementById('btnReset').addEventListener('click', () => {
+        document.getElementById('template').value = DEFAULT_TEMPLATE;
+    });
+
+    document.getElementById('btnSave').addEventListener('click', () => {
+        localStorage.setItem('patient_firstname',  document.getElementById('firstName').value.trim());
+        localStorage.setItem('patient_lastname',   document.getElementById('lastName').value.trim());
+        localStorage.setItem('fiscal_code',        document.getElementById('fiscalCode').value.trim().toUpperCase());
+        localStorage.setItem('doctor_phone',       document.getElementById('doctorPhone').value.trim());
+        localStorage.setItem('doctor_email',       document.getElementById('doctorEmail').value.trim());
+        localStorage.setItem('send_method',        document.querySelector('input[name=sendMethod]:checked').value);
+        localStorage.setItem('message_template',   document.getElementById('template').value);
+        window.location.href = 'index.html';
+    });
+</script>
+</body>
+</html>

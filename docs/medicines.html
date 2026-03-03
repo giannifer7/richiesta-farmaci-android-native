@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Farmaci">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="manifest" href="manifest.json">
+    <title>Farmaci – Richiesta Farmaci</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="header">
+    <a href="settings.html" class="btn btn-secondary btn-small">‹ Indietro</a>
+    <h1>Farmaci</h1>
+</div>
+
+<div class="content">
+    <div class="field-hint" style="font-size:14px; margin-bottom:12px; color:#555">
+        Un farmaco per riga.<br>
+        <code>[x] 2 x Paracetamolo 1000 mg</code> → selezionato di default<br>
+        <code>[ ] 1 x Ramipril 5 mg</code> → non selezionato di default
+    </div>
+
+    <textarea class="field-input" id="medicinesText" rows="16"
+        placeholder="[x] 2 x Paracetamolo 1000 mg&#10;[ ] 1 x Ramipril 5 mg"></textarea>
+</div>
+
+<div class="footer-btn">
+    <button class="btn btn-primary" id="btnSave">SALVA</button>
+</div>
+
+<script src="app.js"></script>
+<script>
+    document.getElementById('medicinesText').value = getMedicinesText();
+
+    document.getElementById('btnSave').addEventListener('click', () => {
+        localStorage.setItem('medicines_text', document.getElementById('medicinesText').value);
+        window.location.href = 'settings.html';
+    });
+</script>
+</body>
+</html>
