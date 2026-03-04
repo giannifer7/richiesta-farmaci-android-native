@@ -26,6 +26,14 @@
 
     <textarea class="field-input" id="medicinesText" rows="16"
         placeholder="[x] 2 x Paracetamolo 1000 mg&#10;[ ] 1 x Ramipril 5 mg"></textarea>
+
+    <div class="field-label" style="margin-top:28px">Importa da testo</div>
+    <div class="field-hint" style="font-size:14px; margin-bottom:8px; color:#555">
+        Incolla la risposta del medico o una lista farmaci — sostituisce la lista sopra.
+    </div>
+    <textarea class="field-input" id="importText" rows="5"
+        placeholder="Farmaci: ROSSI Mario, 2 x Paracetamolo 1000 mg, 1 x Ramipril 5 mg&#10;oppure&#10;[x] 2 x Paracetamolo 1000 mg&#10;Lansoprazolo 30 mg"></textarea>
+    <button class="btn btn-secondary" id="btnImport" style="margin-top:8px; margin-bottom:24px">Importa</button>
 </div>
 
 <div class="footer-btn">
@@ -35,6 +43,17 @@
 <script src="app.js"></script>
 <script>
     document.getElementById('medicinesText').value = getMedicinesText();
+
+    document.getElementById('btnImport').addEventListener('click', () => {
+        const text = document.getElementById('importText').value.trim();
+        if (!text) return;
+        const entries = parseImportText(text);
+        if (!entries.length) return;
+        const lines = entries.map(({ entry, isDefault }) =>
+            (isDefault ? '[x] ' : '[ ] ') + entry).join('\n');
+        document.getElementById('medicinesText').value = lines;
+        document.getElementById('importText').value = '';
+    });
 
     document.getElementById('btnSave').addEventListener('click', () => {
         localStorage.setItem('medicines_text', document.getElementById('medicinesText').value);
